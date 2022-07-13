@@ -8,7 +8,7 @@ button.on('click', () => {
         data: {
                 firstName: jQuery("input[name=first_name]").val(),
                 lastName: jQuery("input[name=last_name]").val(),
-                message: jQuery("input[name=message]").val(),
+                message: jQuery("textarea[name=message]").val(),
                 subject: jQuery("input[name=subject]").val(),
                 email: jQuery("input[name=email]").val()
             }
