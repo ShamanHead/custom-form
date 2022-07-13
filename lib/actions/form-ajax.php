@@ -3,7 +3,9 @@
 add_action( 'wp_ajax_form_submit', 'endpoint' );
 
 function endpoint() {
-    $data = $_POST['data']; 
+    $data = $_POST['data'];
+    $hubSpotKey = wpsf_get_setting( 'custom_forms', 'general', 'hubspot-key' );
+
     foreach($data as $d) {
         if($d === '') {
             echo json_encode(["code" => 500, "message" => "Some field not filled"]); 
@@ -18,13 +20,13 @@ function endpoint() {
 
     $mail = mail($_POST['email'], $_POST['subject'], $_POST['message']);
 
-    $hubSpot = \HubSpot\Factory::createWithAccessToken('pat-eu1-7d6028c8-92d2-47f6-a237-67fbf355c40b');
+    $hubSpot = \HubSpot\Factory::createWithAccessToken($hubSpotKey);
 
     $contactInput = new \HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput();
     $contactInput->setProperties([
-        'email' => $_POST['email'],
-        'firstname' => $_POST['firstName'],
-        'lastname' => $_POST['lastName']
+        'email' => $data['email'],
+        'firstname' => $data['firstName'],
+        'lastname' => $data['lastName']
     ]);
 
     $contact = $hubSpot->crm()->contacts()->basicApi()->create($contactInput);

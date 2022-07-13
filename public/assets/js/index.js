@@ -1,24 +1,22 @@
 let button = jQuery("#submit-form");
 
-console.log("hello!");
-
 button.on('click', () => {
    console.log("submitted"); 
-    let form = $("custom-form"); 
+    let form = jQuery("custom-form"); 
     let data = {
         action: "form_submit",
         data: {
-                firstName: $("input[name=first_name]").val(),
-                lastName: $("input[name=last_name]").val(),
-                message: $("input[name=message]").val(),
-                subject: $("input[name=subject]").val(),
-                email: $("input[name=email]").val()
+                firstName: jQuery("input[name=first_name]").val(),
+                lastName: jQuery("input[name=last_name]").val(),
+                message: jQuery("input[name=message]").val(),
+                subject: jQuery("input[name=subject]").val(),
+                email: jQuery("input[name=email]").val()
             }
     }
 
-    $.post("http://wordpress.test/wp-admin/admin-ajax.php", data, (data, status) => {
+    jQuery.post("http://wordpress.test/wp-admin/admin-ajax.php", data, (data, status) => {
         let realData = JSON.parse(data),
-            boxMessage = $(".box-message");
+            boxMessage = jQuery(".box-message");
         
         switch(realData.code) {
             case 500:
