@@ -1,4 +1,4 @@
-let button = $("#submit-form");
+let button = jQuery("#submit-form");
 
 console.log("hello!");
 
@@ -13,7 +13,7 @@ button.on('click', () => {
                 message: $("input[name=message]").val(),
                 subject: $("input[name=subject]").val(),
                 email: $("input[name=email]").val()
-        }
+            }
     }
 
     $.post("http://wordpress.test/wp-admin/admin-ajax.php", data, (data, status) => {

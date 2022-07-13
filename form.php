@@ -23,30 +23,66 @@ if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
 }
 
 require_once __DIR__ . "/vendor/autoload.php";
-require_once __DIR__ . "/lib/classes/custom-form.php";
 require_once __DIR__ . "/lib/actions/form-ajax.php";
 
 class CustomForm {
 
     private static $instance;
+    private static $pluginPath;
+    private static $templatePath;
 
-    public static function getInstance() {
+    protected $templates;
+
+    public static function getInstance() { 
+        if ( null == self::$instance ) {
+            self::$pluginPath = plugin_dir_path(__FILE__);
+            self::$templatePath = self::$pluginPath . "/templates/";
+            self::$instance = new CustomForm();
+        } 
     
-      if ( null == self::$instance ) {
-        self::$instance = new CustomForm();
-      } 
-    
-      return self::$instance;
+        return self::$instance;
     
     }
 
     function __construct() {
-       add_action('init', function() {
-           if (isset($_GET['custom-form']) && !isset($_GET['json'])) {
-               require_once __DIR__ . "/page.php";  
-               exit();
-           } 
-       });
+        $this->templates = [
+            'custom-form' => self::$templatePath . "/page.php"
+        ]; 
+
+        add_action( "wp_footer", [$this, "addJavascript"] );
+        add_action( "wp_head", [$this, "addStyle"] );
+        add_filter( "template_include", [$this, "templateInclude"] );
+
+               
+    }
+
+    public function templateInclude($template)
+    {
+        $uri = explode("/", $_SERVER['REQUEST_URI']);
+        $templateRequest = end($uri);
+
+        for($i = 0, $keys = array_keys($this->templates);
+            $i < count($keys);
+            $i++) {
+            if($templateRequest === $keys[$i]) {
+                return $this->templates[$keys[$i]];
+            }
+        }
+
+        return $template;
+    }
+
+    public function addStyle () {
+        wp_enqueue_style("custom-form-style", plugins_url() . "/form/public/assets/css/style.css"); 
+    }
+
+    public function addJavascript() {
+        wp_enqueue_script('jquery');
+        wp_enqueue_script( 'the-script-handle', 
+                           plugins_url() . "/form/public/assets/js/index.js", 
+                           [ 'jquery' ], 
+                           '1.0', 
+                           true);
     }
 }
 
