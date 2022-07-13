@@ -44,7 +44,7 @@ class CustomForm {
 
     function __construct() {
         $this->wpsf = new WordPressSettingsFramework(
-            self::$pluginPath . 'settings-api/example-settings.php',
+            self::$pluginPath . 'settings-api/settings.php',
             'custom_forms' 
         );
         

@@ -74,11 +74,10 @@ function endpoint() {
     $mail = mail($data['email'], $data['subject'], $data['message']); 
 
     if($mail !== true) {
-        //echo json_encode(["code" => 502, "message" => "Not send"]);
-        //die();
-        $log->info("New mail arrived. {$data['email']}");
+        echo json_encode(["code" => 502, "message" => "Not send"]);
+        die();
     } else {
-        //some
+        $log->info("New mail arrived. {$data['email']}");
     }
 
     echo json_encode(["code" => 200, "message" => "OK"]);
