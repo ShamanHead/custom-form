@@ -10,7 +10,8 @@
     flex-direction: column;
 }
 
-.custom-form__form > input[type=text] {
+.custom-form__form > input[type=text], textarea {
+    resize: none;
     background-color: transparent;
     border-radius: 5px; 
     margin-top: 2%;

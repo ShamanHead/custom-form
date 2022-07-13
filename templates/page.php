@@ -14,7 +14,7 @@ if( wp_is_block_theme() ) {
         <input type="text" name="first_name" placeholder="First name">
         <input type="text" name="last_name" placeholder="Last name">
         <input type="text" name="subject" placeholder="Subject">
-        <input type="text" name="message" placeholder="Message">
+        <textarea name="message" placeholder="Message"></textarea>
         <input type="text" name="email" placeholder="Email">
         <input type="submit" name="submit-form" id="submit-form"> 
     </div> 
