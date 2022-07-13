@@ -10,7 +10,6 @@ if( wp_is_block_theme() ) {
 ?>
 <main class="custom-form__wrapper"> 
      <div class="custom-form__form" id="custom-form">
-        <div class="box-message"></div>
         <input type="hidden" name="is-form-submitted"> 
         <input type="text" name="first_name" placeholder="First name">
         <input type="text" name="last_name" placeholder="Last name">

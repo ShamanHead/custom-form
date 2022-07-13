@@ -3,7 +3,8 @@
     "description": "Just another, but looks pretty wordpress plugin!",
     "type": "project",
     "require": {
-        "hubspot/api-client": "^8.2"
+        "hubspot/api-client": "^8.2",
+        "monolog/monolog": "3.1.0"
     },
     "license": "MIT",
     "authors": [

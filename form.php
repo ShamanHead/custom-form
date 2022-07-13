@@ -11,15 +11,10 @@ Version: 1
 Author URI: https://github.com/ShamanHead 
 */
 
-//some code here
+//Directly? Abort
 if ( !function_exists( 'add_action' ) ) {
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
-}
-
-if ( is_admin() || ( defined( 'WP_CLI' ) && WP_CLI ) ) {
-	//require_once( AKISMET__PLUGIN_DIR . 'class.form-admin.php' );
-	//add_action( 'init', array( 'Akismet_Admin', 'init' ) );
 }
 
 require_once __DIR__ . "/vendor/autoload.php";
@@ -29,11 +24,10 @@ require_once __DIR__ . "/wp-settings-framework/wp-settings-framework.php";
 class CustomForm {
 
     private static $instance;
-    private static $pluginPath;
-    private static $templatePath;
+    public static $pluginPath;
+    public static $templatePath;
     
     private $wpsf;
-
     protected $templates;
 
     public static function getInstance() 
@@ -57,22 +51,20 @@ class CustomForm {
         add_action( 'admin_menu', array( $this, 'setupSettingsPage' ), 20 );
 
         $this->templates = [
-            'custom-form' => self::$templatePath . "/page.php"
+            'custom-form' => self::$templatePath . "page.php"
         ]; 
 
         add_action( "wp_footer", [$this, "addJavascript"] );
         add_action( "wp_head", [$this, "addStyle"] );
         add_filter( "template_include", [$this, "templateInclude"] );
 
-        //die(print_r($this->wpsf->get_settings()));
-
     }
 
     public function setupSettingsPage() 
     {
         $this->wpsf->add_settings_page( array(
-			'page_title'  => __( 'Page Title', 'text-domain' ),
-			'menu_title'  => __( 'menu Title', 'text-domain' ),
+			'page_title'  => __( 'CustomForm', 'text-domain' ),
+			'menu_title'  => __( 'CustomForm', 'text-domain' ),
 		) );
     }
 
@@ -102,7 +94,12 @@ class CustomForm {
     public function addJavascript() 
     {
         wp_enqueue_script('jquery');
-        wp_enqueue_script( 'the-script-handle', 
+        wp_enqueue_script( 'notiflix', 
+                           plugins_url() . "/form/public/assets/js/notiflix/notiflix-aio-3.2.5.min.js", 
+                           [ ], 
+                           '1.0', 
+                           true);
+        wp_enqueue_script( 'form-submit-handle', 
                            plugins_url() . "/form/public/assets/js/index.js", 
                            [ 'jquery' ], 
                            '1.0', 

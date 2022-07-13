@@ -14,26 +14,30 @@ button.on('click', () => {
             }
     }
 
-    jQuery.post("http://wordpress.test/wp-admin/admin-ajax.php", data, (data, status) => {
+    jQuery.post("./wp-admin/admin-ajax.php", data, (data, status) => {
         let realData = JSON.parse(data),
-            boxMessage = jQuery(".box-message");
-        
+            message = '';
+
         switch(realData.code) {
             case 500:
-                boxMessage.addClass("box-error");
-                boxMessage.text("Please, fill all inputs");
+                Notiflix.Notify.warning( 
+                  'Fill all fields please.'
+                );
                 break;
             case 501:
-                boxMessage.addClass("box-error");
-                boxMessage.text("Email incorrect");
+                Notiflix.Notify.warning( 
+                  'E-mail is incorrect'
+                );
                 break;
             case 502:
-                boxMessage.addClass("box-error");
-                boxMessage.text("Message could not be sent");
+                Notiflix.Notify.warning(
+                  'Message not sent'
+                );
                 break;
             case 200:
-                boxMessage.addClass("box-ok");
-                boxMessage.text("Ok");
+                Notiflix.Notify.success(
+                  'Message sent'
+                );
                 break;
         }
     });

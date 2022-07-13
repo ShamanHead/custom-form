@@ -2,9 +2,20 @@
 
 add_action( 'wp_ajax_form_submit', 'endpoint' );
 
+use Monolog\Logger;
+use Monolog\Level;
+use Monolog\Handler\StreamHandler;
+
 function endpoint() {
     $data = $_POST['data'];
     $hubSpotKey = wpsf_get_setting( 'custom_forms', 'general', 'hubspot-key' );
+
+    $log = new Logger('main');
+    $log->pushHandler(
+        new StreamHandler(
+        CustomForm::$pluginPath . "/logs/main.log",
+        Level::Info)
+    );
 
     foreach($data as $d) {
         if($d === '') {
@@ -13,28 +24,62 @@ function endpoint() {
         }    
     }
 
-    if(preg_match('/\S+@\S+\.\S+/', $data['email']) === false) {
+    if(preg_match('/\S+@\S+\.\S+/', $data['email']) === 0) {
         echo json_encode(["code" => 501, "message" => "Email incorrect"]);
         die();
-    }
-
-    $mail = mail($_POST['email'], $_POST['subject'], $_POST['message']);
+    } 
 
     $hubSpot = \HubSpot\Factory::createWithAccessToken($hubSpotKey);
 
-    $contactInput = new \HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput();
-    $contactInput->setProperties([
+    $filter = new \HubSpot\Client\Crm\Contacts\Model\Filter();
+    $filter
+        ->setOperator('EQ')
+        ->setPropertyName('email')
+        ->setValue($data['email']);
+    
+    $filterGroup = new \HubSpot\Client\Crm\Contacts\Model\FilterGroup();
+    $filterGroup->setFilters([$filter]);
+    
+    $searchRequest = new \HubSpot\Client\Crm\Contacts\Model\PublicObjectSearchRequest();
+    $searchRequest->setFilterGroups([$filterGroup]);
+    
+    $contactsPage = $hubSpot->crm()->contacts()->searchApi()->doSearch($searchRequest);
+
+    $searchResult = $contactsPage->getResults();
+
+    $contactProperties = new \HubSpot\Client\Crm\Contacts\Model\SimplePublicObjectInput();
+    $contactProperties->setProperties([
         'email' => $data['email'],
         'firstname' => $data['firstName'],
-        'lastname' => $data['lastName']
+        'lastname' => $data['lastName']       
     ]);
 
-    $contact = $hubSpot->crm()->contacts()->basicApi()->create($contactInput);
- 
-    //if($mail !== true) {
-    //    echo json_encode(["code" => 502, "message" => "Not send"]);
-    //    die();
-    //}
+    try{
+        if(count($searchResult) > 0) {        
+            $hubSpot->crm()
+                    ->contacts()
+                    ->basicApi()
+                    ->update($searchResult[0]->getId(), $contactProperties);
+        } else {
+            $hubSpot->crm()
+                    ->contacts()
+                    ->basicApi()
+                    ->create($contactProperties);    
+        }
+    } catch(Exception $e) {
+        echo json_encode(["code" => 501, "message" => "Email incorrect"]);
+        die();
+    } 
+
+    $mail = mail($data['email'], $data['subject'], $data['message']); 
+
+    if($mail !== true) {
+        //echo json_encode(["code" => 502, "message" => "Not send"]);
+        //die();
+        $log->info("New mail arrived. {$data['email']}");
+    } else {
+        //some
+    }
 
     echo json_encode(["code" => 200, "message" => "OK"]);
     die();
