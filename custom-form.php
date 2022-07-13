@@ -1,10 +1,10 @@
 <?php
 /**
- * @package Form
+ * @package CustomForm
  * @version 1
  */
 /*
-Plugin Name: Form 
+Plugin Name: CustomForm 
 Description: Just a form plugin
 Author: Arseniy Romanovskiy
 Version: 1
