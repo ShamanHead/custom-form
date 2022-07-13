@@ -104,6 +104,8 @@ class CustomForm {
                            [ 'jquery' ], 
                            '1.0', 
                            true);
+        wp_localize_script( 'form-submit-handle', 'AjaxObject',
+            array( 'ajaxUrl' => admin_url( 'admin-ajax.php' ) ) );
 
     }
 }

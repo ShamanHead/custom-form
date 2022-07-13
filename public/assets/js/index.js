@@ -14,7 +14,7 @@ button.on('click', () => {
             }
     }
 
-    jQuery.post("./wp-admin/admin-ajax.php", data, (data, status) => {
+    jQuery.post(AjaxObject.ajaxUrl, data, (data, status) => {
         let realData = JSON.parse(data),
             message = '';
 
