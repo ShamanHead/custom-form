@@ -13,6 +13,10 @@ class Form {
     }
 
     public static function loadStyle() {
-        require_once __DIR__ . "/../public/style/style.css";
+        require_once __DIR__ . "/../public/assets/css/style.css";
+    }
+
+    public static function loadJs() {
+        require_once __DIR__ . "/../public/assets/js/index.js";
     }
 }
