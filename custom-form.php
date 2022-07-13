@@ -87,7 +87,7 @@ class CustomForm {
 
     public function addStyle () 
     {
-        wp_enqueue_style("custom-form-style", plugins_url() . "/form/public/assets/css/style.css"); 
+        wp_enqueue_style("custom-form-style", plugins_url() . "/custom-form/public/assets/css/style.css"); 
    
     }
 
@@ -95,12 +95,12 @@ class CustomForm {
     {
         wp_enqueue_script('jquery');
         wp_enqueue_script( 'notiflix', 
-                           plugins_url() . "/form/public/assets/js/notiflix/notiflix-aio-3.2.5.min.js", 
+                           plugins_url() . "/custom-form/public/assets/js/notiflix/notiflix-aio-3.2.5.min.js", 
                            [ ], 
                            '1.0', 
                            true);
         wp_enqueue_script( 'form-submit-handle', 
-                           plugins_url() . "/form/public/assets/js/index.js", 
+                           plugins_url() . "/custom-form/public/assets/js/index.js", 
                            [ 'jquery' ], 
                            '1.0', 
                            true);
