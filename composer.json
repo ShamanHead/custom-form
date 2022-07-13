@@ -1,0 +1,15 @@
+{
+    "name": "shamanhead/form",
+    "description": "Just another, but looks pretty wordpress plugin!",
+    "type": "project",
+    "require": {
+        "hubspot/api-client": "^8.2"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Arseniy Romanovskiy",
+            "email": "ronyplay247@gmail.com"
+        }
+    ]
+}

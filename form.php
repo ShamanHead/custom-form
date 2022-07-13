@@ -18,7 +18,6 @@ if ( !function_exists( 'add_action' ) ) {
 }
 
 require_once __DIR__ . "/classes/custom-form.php";
-require_once __DIR__ . "/classes/hubspot.php";
 
 define("FORM_PATH", plugin_dir_path(__FILE__));
 
