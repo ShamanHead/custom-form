@@ -2,7 +2,7 @@
     <head>
         <title>It's just works. Not fine, but..</title> 
     </head>
-    <body>
+    <body class="custom-form__wrapper">
     <style>
         <? echo \CustomForm\Form::loadStyle() ?> 
     </style>    
