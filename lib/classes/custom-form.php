@@ -9,14 +9,14 @@ class Form {
     }
 
     public static function render() {
-        require_once __DIR__ . "/../public/form.html"; 
+        require_once __DIR__ . "/../../public/form.html"; 
     }
 
     public static function loadStyle() {
-        require_once __DIR__ . "/../public/assets/css/style.css";
+        require_once __DIR__ . "/../../public/assets/css/style.css";
     }
 
     public static function loadJs() {
-        require_once __DIR__ . "/../public/assets/js/index.js";
+        require_once __DIR__ . "/../../public/assets/js/index.js";
     }
 }

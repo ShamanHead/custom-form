@@ -6,14 +6,17 @@ button.on('click', () => {
    console.log("submitted"); 
     let form = $("custom-form"); 
     let data = {
-        firstName: $("input[name=first_name]").val(),
-        lastName: $("input[name=last_name]").val(),
-        message: $("input[name=message]").val(),
-        subject: $("input[name=subject]").val(),
-        email: $("input[name=email]").val()
+        action: "form_submit",
+        data: {
+                firstName: $("input[name=first_name]").val(),
+                lastName: $("input[name=last_name]").val(),
+                message: $("input[name=message]").val(),
+                subject: $("input[name=subject]").val(),
+                email: $("input[name=email]").val()
+        }
     }
 
-    $.post("?custom-form&json", data, (data, status) => {
+    $.post("http://wordpress.test/wp-admin/admin-ajax.php", data, (data, status) => {
         let realData = JSON.parse(data),
             boxMessage = $(".box-message");
         
